@@ -39,7 +39,12 @@ router.get('/me', function(req,res){
   jwt.verify(token, config.secret, function(err,decoded){
     if (err) return res.status(500).send({ auth: false, message: 'Failed to authenicate token.'});
 
-    res.status(200).send(decoded);
+    User.findById(decoded.id, { password: 0 }, function(err, user){
+      if (err) return res.status(500).send("There was a problem finding the user.");
+      if(!user) return res.status(404).send("That user does not exist.");
+
+      res.status(200).send(user);
+    });
   });
 });
 
