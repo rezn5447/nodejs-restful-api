@@ -11,7 +11,7 @@ var User = require('../user/User');
 
 
 router.post('/register', function(req,res){
-  var hashedPassword = bycrypt.hashsync(req.body.password, 8);
+  var hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
   User.create({
     name: req.body.name,
@@ -42,3 +42,6 @@ router.get('/me', function(req,res){
     res.status(200).send(decoded);
   });
 });
+
+
+module.exports = router;
